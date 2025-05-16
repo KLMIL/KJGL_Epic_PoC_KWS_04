@@ -57,7 +57,7 @@ public class Bullet : MonoBehaviour
 
         // 현재 목표 포인트로 이동
         Vector3 target = _path[_currentPointIndex];
-        float step = _speed * Time.deltaTime / Time.timeScale; // 불릿타임 보정
+        float step = _speed * Time.deltaTime; // / Time.timeScale; // 불릿타임 보정
         transform.position = Vector3.MoveTowards(transform.position, target, step);
 
         if (Vector3.Distance(transform.position, target) < 0.01f)
