@@ -33,11 +33,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int _curvePoints = 20; // 곡선 해상도
     [SerializeField] float _curveIntensity = 1f; // 곡률 강도
 
+    [Header("Player Status")]
+    [SerializeField] float _maxHealth = 5f;
+    float _currentHealth;
+
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _lineRenderer = GetComponent<LineRenderer>();
+        _currentHealth = _maxHealth;
     }
 
     private void Update()
@@ -84,7 +89,8 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("prefab or firepoint is not assigned");
             return;
         }
-        List<Vector3> path = GenerateCurvePath(_firePoint.position, _bulletTimeEndPos, currentMousePos);
+        Vector3 targetPos = _isBulletTime ? _bulletTimeEndPos : currentMousePos;
+        List<Vector3> path = GenerateCurvePath(_firePoint.position, targetPos, currentMousePos);
 
         GameObject bullet = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
         Bullet bulletScript = bullet.GetComponent<Bullet>();
@@ -144,5 +150,17 @@ public class PlayerController : MonoBehaviour
             path.Add(point);
         }
         return path;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            _currentHealth--;
+            if (_currentHealth <= 0)
+            {
+                LevelManager.Instance.GameOver();
+            }
+        }
     }
 }

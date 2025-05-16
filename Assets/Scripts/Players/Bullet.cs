@@ -14,6 +14,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] float _speed = 10f;
+    [SerializeField] float _damage = 1f;
     List<Vector3> _path;
     int _currentPointIndex;
     bool _hasPath = false;
@@ -73,7 +74,23 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        /* 적과 충돌 처리 추가 */
-        //Destroy(gameObject);
+        Debug.Log($"Bullet hit: {collision.name}, Tag: {collision.tag}");
+        if (collision.CompareTag("Enemy"))
+        {
+            // Enemy일 경우
+            Enemy enemy = collision.GetComponent<Enemy>();
+            if (enemy) enemy.TakeDamage(_damage);
+
+            // Target일 경우
+            Target target = collision.GetComponent<Target>();
+            if (target) target.TakeDamage(_damage);
+
+            Destroy(gameObject); // 적 충돌시 총알 파괴
+        }
+
+        if (collision.CompareTag("Wall"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
