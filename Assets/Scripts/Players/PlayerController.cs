@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     LineRenderer _lineRenderer;
     [SerializeField] int _curvePoints = 20; // 곡선 해상도
     [SerializeField] float _curveIntensity = 1f; // 곡률 강도
+    [SerializeField] float _maxCurveOffset = 5f; // 최대 곡률 오프셋
 
     [Header("Player Status")]
     [SerializeField] float _maxHealth = 5f;
@@ -136,8 +137,10 @@ public class PlayerController : MonoBehaviour
     List<Vector3> GenerateCurvePath(Vector3 startPos, Vector3 endPos, Vector3 currentMousePos)
     {
         List<Vector3> path = new List<Vector3>();
+
         Vector3 controlPos = startPos + (endPos - startPos) / 2; // 기본 중간점
         Vector3 mouseOffset = currentMousePos - endPos; // 현재 마우스와 고정 끝점의 차이
+        mouseOffset = Vector3.ClampMagnitude(mouseOffset, _maxCurveOffset);
         controlPos += mouseOffset * _curveIntensity; // 이동량으로 곡률 조정
 
         // 2차 베지어 곡선
