@@ -7,9 +7,7 @@
  * - 캐릭터의 움직임 및 상호작용 기능
  *********************************************************/
 
-using Mono.Cecil.Cil;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
