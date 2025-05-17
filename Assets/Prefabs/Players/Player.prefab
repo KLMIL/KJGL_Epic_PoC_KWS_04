@@ -87,6 +87,8 @@ MonoBehaviour:
   _bulletTimeScale: 0.2
   _curvePoints: 20
   _curveIntensity: 1
+  _maxTargetMoveDistance: 7
+  _maxBendAngle: 120
   _maxHealth: 5
 --- !u!58 &8985931226908405536
 CircleCollider2D:
@@ -150,7 +152,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!120 &6760318934145786603
 LineRenderer:
   serializedVersion: 2
